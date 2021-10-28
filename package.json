@@ -1,0 +1,36 @@
+{
+  "name": "kmeans-learn",
+  "version": "1.0.0",
+  "description": "The kmeans applet as a pedagogical tool",
+  "main": "index.js",
+  "scripts": {
+    "devStart": "nodemon server.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://dominicdayta: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@github.com/dominicdayta/kmeans-learn.git"
+  },
+  "keywords": [
+    "kmeans",
+    "learning",
+    "data",
+    "science",
+    "data",
+    "analysis"
+  ],
+  "author": "dominicdayta",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/dominicdayta/kmeans-learn/issues"
+  },
+  "homepage": "https://github.com/dominicdayta/kmeans-learn#readme",
+  "dependencies": {
+    "ejs": "^3.1.6",
+    "express": "^4.17.1",
+    "mongoose": "^6.0.12"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.14"
+  }
+}
