@@ -5,4 +5,9 @@ router.get('/', (req,res) => {
     res.render('lessons');
 })
 
+router.get('/kmeans', (req,res) => {
+    res.render('kmeans-home');
+})
+
+
 module.exports = router;
