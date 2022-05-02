@@ -13,6 +13,10 @@ router.get('/kmeans/pretest', (req,res) => {
     res.render('kmeans1/preassessment.ejs');
 })
 
+router.get('/kmeans/introduction', (req,res) => {
+    res.render('kmeans1/introduction.ejs');
+})
+
 router.get('/kmeans/posttest', (req,res) => {
     res.render('kmeans1/postassessment.ejs');
 })
