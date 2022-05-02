@@ -29,4 +29,8 @@ router.get('/kmeans/posttest', (req,res) => {
     res.render('kmeans1/postassessment.ejs');
 })
 
+router.get('/kmeans/feedback', (req,res) => {
+    res.render('kmeans1/feedback.ejs');
+})
+
 module.exports = router;
