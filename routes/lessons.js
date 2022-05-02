@@ -9,5 +9,12 @@ router.get('/kmeans', (req,res) => {
     res.render('kmeans-home');
 })
 
+router.get('/kmeans/pretest', (req,res) => {
+    res.render('kmeans1/preassessment.ejs');
+})
+
+router.get('/kmeans/posttest', (req,res) => {
+    res.render('kmeans1/postassessment.ejs');
+})
 
 module.exports = router;

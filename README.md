@@ -14,7 +14,7 @@ Initilize the server using nodemon:
 npm run devStart
 ```
 
-The server is set to listen to port 5000.
+The server is set to listen to port 4000.
 
 ## Preview
 
