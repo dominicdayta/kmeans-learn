@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+
+    <title>The Algorithm, K-Means Clustering | Learn Data Science</title>
+</head>
+<body>
+    <!-- simple navbar -->
+    <nav class="navbar navbar-expand-lg navbar-light" style="background-color: #e3f2fd;">
+        <div class="container-fluid">
+            <span class="navbar-brand mb-0 h1">Learn Data Science</span>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+
+                <li class="nav-item">
+                    <a class="nav-link" href="/">Home</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link active" href="/lessons">Lessons</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="/Logout">Logout</a>
+                </li>
+
+            </ul>
+          </div>
+        </div>
+    </nav>
+
+    <div style = "height:50px">&nbsp;</div>
+    
+    <!-- main content -->
+    <div class="container">
+        <center>
+            <img src = "/img/cluster_img1.png" width = "30%">
+        </center>
+
+        <h1>Lesson Three: Application on US Arrests Data</h1>
+        <h3>K-Means Clustering</h3>
+        <p>Status: <mark>Pending Completion</mark></p>
+    </div>
+
+    <div style = "height:50px">&nbsp;</div>
+
+    <div class="container mx-auto" style="width: 80%">
+        <p>Plotted below is data on the rate of arrests in the US based on the type of crime committed. The x-axis shows the number of arrests made on murder, for every 100,000 of the population. Meanwhile, the y-axis shows the number of arrests made on assault, for every 100,000 of the population. Each data poin represents one of the fifty states of the USA.</p>
+        <p>Our goal is to cluster these states based on their arrests for assault and murder. In the previous lesson, we considered only K=2 groups. Now, we can try finding more than 2 clusters.</p>
+        
+        <div class="card mb-3">
+            <div class="card-header">
+                <div class = "row">
+                    <div class = "col-xs-9 col-sm-11"><h5>Clustering Parameters</h5></div>
+                    <div class = "col-xs-3 col-sm-1">
+                        <form method = "post" style = "display:none"><button type="submit" class="btn btn-primary btn-sm" name = "change_data" value = "submit">Change</button></form>
+                    </div>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class = "container row">
+                    <div class = "col-sm-12 col-md-6 col-lg-6 col-xl-6 row">
+                        <label for="data_select" class="col-sm-3 col-form-label">Data [x, y]:</label>
+                        <div class="col-sm-9">
+                            <input type="text" readonly="" class="form-control-plaintext" id="data_select" value="US Arrests [Murder, Assault]">
+                        </div>
+                    </div>
+    
+                    <div class = "col-sm-12 col-md-6 col-lg-6 col-xl-6">
+                        <div class="form-group row">
+                            <label class="col-sm-6 col-form-label" for="cluster_select">Number of Clusters:</label>
+                            <div class = "col-sm-6">
+                                <select class="form-control" id="cluster_select" onchange = "change_clusters(this.value)">
+                                <option value = 2>2</option>
+                                <option value = 3>3</option>
+                                <option value = 4>4</option>
+                                <option value = 5>5</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <br/>
+                <hr/>
+                <div class = "container">
+                    <p>Click on <mark>Initialize</mark> to restart the algorithm.</p>
+                    <p>Click on <mark>Iterate</mark> to begin updating the cluster assignments.</p>
+                </div>
+                <div class = "container row">
+                    <div class = "col-sm-8">
+                        
+                        Iterations:
+                        <span id = "num_iter">0</span> &nbsp;
+                        <span id = "convergence"></span>
+                        
+                    </div>
+                    <div class="btn-group btn-group-toggle col-sm-4" data-toggle="buttons">
+                        <button type="button" class="btn btn-primary" id = 'improve_clusters' onclick = "improve_clusters(usarrests, clusters, cluster_cols)">Iterate</button>
+                        <button type="button" class="btn btn-outline-primary" id = 'reset_clusters' onclick = "change_clusters(document.getElementById('cluster_select').value)">Reset</button>
+                    </div>
+                    
+                </div>
+            </div>
+        </div>
+
+
+        <div style = "height:25px">&nbsp;</div>
+        <p>We mentioned in the previous lesson that changing the starting location of the center can often lead to different final locations at the end of the algorithm. Notice how <mark>each time you restart the algorithm, the final groupings formed may be a little or entirely different</mark> from the one that was formed in the previous run.</p>
+        
+        <div style = "height:50px">&nbsp;</div>
+
+        <div class = "row">
+            <div class = "col-12 col-sm-12 col-md-7 col-lg-7 col-xl-6" id = "scatter">
+            </div>
+            <div class = "col-12 col-sm-12 col-md-5 col-lg-5 col-xl-6" id = "centroids">
+                
+            </div>
+        </div>
+
+        <div style = "height:50px">&nbsp;</div>
+
+        <form>
+            <button type="submit" class="btn btn-primary">Mark As Completed</button>
+        </form>
+    
+    </div>
+
+    <div style = "height:50px">&nbsp;</div>
+
+    <div class="container">
+        <footer class="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top">
+          <p class="col-md-4 mb-0 text-muted">&copy; 2021 Dominic Dayta, All Rights Reserved</p>
+      
+          <a href="/" class="col-md-4 d-flex align-items-center justify-content-center mb-3 mb-md-0 me-md-auto link-dark text-decoration-none">
+            <svg class="bi me-2" width="40" height="32"><use xlink:href="#bootstrap"/></svg>
+          </a>
+      
+          <ul class="nav col-md-4 justify-content-end">
+            <li class="nav-item"><a href="/" class="nav-link px-2 text-muted">Home</a></li>
+            <li class="nav-item"><a href="/lessons" class="nav-link px-2 text-muted">Lessons</a></li>
+            <li class="nav-item"><a href="/logout" class="nav-link px-2 text-muted">Logout</a></li>
+          </ul>
+        </footer>
+    </div>
+
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <script src="/js/base.js"></script>
+    <script src="/js/cluster.js"></script>
+    <script src="/js/usarrests.js"></script>
+    <script>
+        var num_clusters = 2;
+        var color_range = ["#2109f7","#16ccff","#16fff3","#1696ff","#16ffa9","#16e0ff","#16ffe7","#16ff73"]
+        var cluster_cols = ['Murder','Assault'];
+        var clusters = init_clusters(k = num_clusters, usarrests, cluster_cols);
+        var rsq_list = [];
+        var rsq_change = [];
+        var tol = 1e-100;
+        var max_iter = 20;
+        var num_iter = 0;
+    
+        change_clusters = function(k){
+            // reset parameters
+            num_clusters = k;
+            rsq_list = [];
+            rsq_change = [];
+            num_iter = 0;
+            document.getElementById('improve_clusters').removeAttribute('disabled');
+            document.getElementById('convergence').innerHTML = "";
+            clusters = init_clusters(k = num_clusters, usarrests, cluster_cols);
+            document.getElementById('num_iter').innerHTML = num_iter;
+            // initial cluster assigments
+            find_closest(usarrests, clusters, cluster_cols);
+            // compute for changes in clusters
+            let rsquares = cluster_Rsq(usarrests, clusters, cluster_cols);
+            // minimum within-group r square
+            let logmax = arrMax(dfColToArray(rsquares, "rsq"));
+            rsq_list.push(Math.log(logmax));
+            // plot
+            generate_scatter(usarrests, clusters);
+            generate_centroids(usarrests, clusters);
+        }
+
+        generate_scatter = function(data, clusters, num_iter = 0){
+            let scatter_dt = [];
+            
+            xrange = [
+                0.90 * arrMin(dfColToArray(data, cluster_cols[0])),
+                1.10 * arrMax(dfColToArray(data, cluster_cols[0]))
+            ];
+            yrange = [
+                0.90 * arrMin(dfColToArray(data, cluster_cols[1])),
+                1.10 * arrMax(dfColToArray(data, cluster_cols[1]))
+            ];
+            for(let i = 0; i < clusters.length; i++){
+                cluster_members = subset(data, "_assigned",i);
+                cluster_size = 500 * Math.log(cluster_members.length / data.length + 1);
+                scatter_dt.push({
+                    x: dfColToArray([clusters[i]], cluster_cols[0]),
+                    y: dfColToArray([clusters[i]], cluster_cols[1]),
+                    showlegend: false,
+                    mode: 'markers',
+                    type: 'scatter',
+                    name: 'Cluster ' + Number(i + 1),
+                    marker: { 
+                        color: color_range[i],
+                        opacity: 0.10,
+                        size: cluster_size 
+                    }
+                })
+                scatter_dt.push({
+                    x: dfColToArray(cluster_members, cluster_cols[0]),
+                    y: dfColToArray(cluster_members, cluster_cols[1]),
+                    showlegend: true,
+                    mode: 'markers',
+                    type: 'scatter',
+                    name: 'Cluster ' + Number(i + 1),
+                    text: dfColToArray(cluster_members, "State"),
+                    marker: { 
+                        color: color_range[i],
+                        size: 10 
+                    }
+                })
+            }
+        
+            let layout = {
+                title:'Cluster Assignments (Iteration ' + num_iter + ')',
+                font: {
+                    family: 'Courier New, monospace',
+                    size: 12,
+                    color: '#7f7f7f'
+                },
+                legend: {
+                    "orientation": "h"
+                },
+                xaxis: {fixedrange: true, range: xrange},
+                yaxis: {fixedrange: true, range: yrange}
+            };
+            Plotly.newPlot('scatter', scatter_dt, layout, {displayModeBar: false});
+            return true;
+        }
+
+        generate_centroids = function(data, clusters, num_iter = 0){
+            let scatter_dt = [];
+            
+            xrange = [
+                0.90 * arrMin(dfColToArray(data, cluster_cols[0])),
+                1.10 * arrMax(dfColToArray(data, cluster_cols[0]))
+            ];
+            yrange = [
+                0.90 * arrMin(dfColToArray(data, cluster_cols[1])),
+                1.10 * arrMax(dfColToArray(data, cluster_cols[1]))
+            ];
+            for(let i = 0; i < clusters.length; i++){
+                cluster_members = subset(data, "_assigned",i);
+                // centroids as solid markers
+                scatter_dt.push({
+                    x: dfColToArray([clusters[i]], cluster_cols[0]),
+                    y: dfColToArray([clusters[i]], cluster_cols[1]),
+                    showlegend: true,
+                    mode: 'markers',
+                    type: 'scatter',
+                    name: 'Cluster ' + Number(i + 1),
+                    marker: { 
+                        color: color_range[i],
+                        size: 10 
+                    }
+                })
+                // data points as translucent markers
+                scatter_dt.push({
+                    x: dfColToArray(cluster_members, cluster_cols[0]),
+                    y: dfColToArray(cluster_members, cluster_cols[1]),
+                    showlegend: false,
+                    mode: 'markers',
+                    type: 'scatter',
+                    name: 'Cluster ' + Number(i + 1),
+                    text: dfColToArray(cluster_members, "State"),
+                    marker: { 
+                        color: color_range[i],
+                        opacity: 0.2,
+                        size: 7 
+                    }
+                })
+            }
+            
+            let layout = {
+                title:'Center Positions (Iteration ' + num_iter + ')',
+                font: {
+                    family: 'Courier New, monospace',
+                    size: 12,
+                    color: '#7f7f7f'
+                },
+                legend: {
+                    "orientation": "h"
+                },
+                xaxis: {fixedrange: true, range: xrange},
+                yaxis: {fixedrange: true, range: yrange}
+            };
+            Plotly.newPlot('centroids', scatter_dt, layout, {displayModeBar: false});
+            return true;
+        }
+
+        improve_clusters = function(data, clust_list, cols){
+            let num_iter = Number(document.getElementById('num_iter').innerHTML);
+            num_iter += 1;
+            iter = iterate(data, clust_list, cols);
+            clusters = iter.centroids;
+            // compute for changes in clusters
+            let rsquares = cluster_Rsq(data, clusters, cols);
+            // update varaiables
+            let current_rsq = iter['fits'].ave_rsq;
+            rsq_list.push(current_rsq);
+            let rsq_change = 100*(rsq_list[num_iter - 1] - rsq_list[num_iter])/Math.max(1,rsq_list[num_iter - 1]);
+            if((Math.abs(rsq_change)< tol && current_rsq == arrMin(rsq_list)) || num_iter >= max_iter){
+                document.getElementById('improve_clusters').setAttribute('disabled','');
+                document.getElementById('convergence').innerHTML = "Algorithm has converged!";
+            }
+            // plots
+            generate_scatter(data, clusters, num_iter);
+            generate_centroids(data, clusters, num_iter);
+            document.getElementById('num_iter').innerHTML = num_iter;
+        }
+    
+        change_clusters(2);
+    </script>
+</body>
+</html>

@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+
+    <title>The Algorithm, K-Means Clustering | Learn Data Science</title>
+</head>
+<body>
+    <!-- simple navbar -->
+    <nav class="navbar navbar-expand-lg navbar-light" style="background-color: #e3f2fd;">
+        <div class="container-fluid">
+            <span class="navbar-brand mb-0 h1">Learn Data Science</span>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+
+                <li class="nav-item">
+                    <a class="nav-link" href="/">Home</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link active" href="/lessons">Lessons</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="/Logout">Logout</a>
+                </li>
+
+            </ul>
+          </div>
+        </div>
+    </nav>
+
+    <div style = "height:50px">&nbsp;</div>
+    
+    <!-- main content -->
+    <div class="container">
+        <center>
+            <img src = "/img/cluster_img1.png" width = "30%">
+        </center>
+
+        <h1>Lesson Two: The K-Means Algorithm</h1>
+        <h3>K-Means Clustering</h3>
+        <p>Status: <mark>Pending Completion</mark></p>
+    </div>
+
+    <div style = "height:50px">&nbsp;</div>
+
+    <div class="container mx-auto" style="width: 80%">
+        <p>In the previous lesson, we introduced the clustering problem, its objective, and practical applications. In this lesson, we introduce Lloyd’s Algorithm, also known as the K-Means Algorithm, which is a simple application of the clustering solution that is in wide use in modern data science, statistics, and artificial intelligence engineering today.</p>
+        <p>Let us return to our streaming example from the previous lesson. The following simulated data presents the viewing behavior of made-up subscribers of our streaming company in terms of the aggregated amount of content they have watched of “comedy” and “action” films. To simplify the units, we are looking at their percentile values.</p>
+        <img src = "/img/plot_comedy.png" class="rounded mx-auto d-block" width = "45%">
+        <div style = "height:25px">&nbsp;</div>
+        <p>Our goal is to cluster our subscribers into groups. Suppose we want to form two groups. The K in the name K-Means refers to the number of groups that we are forming. So when making two groups, we are using K=2.</p>
+        <div style = "height:50px">&nbsp;</div>
+        
+        <h5>2.1 Step One: Initialization</h5>
+        <p>The first step of Lloyd’s Algorithm is known as the <mark>initialization</mark>. In the initialization, we don’t know yet where the centers of the groups should be located. So we will make a random guess by placing the centers in random places along the plane.</p>
+        <img src = "/img/plot_randomcenter.png" class="rounded mx-auto d-block" width = "85%">
+        <div style = "height:25px">&nbsp;</div>
+        <p>It doesn’t matter where we place the centers of the group for now. Lloyd’s Algorithm assures us that we will arrive at their best positions in the end.</p>
+        <p>Now that the centers have been placed, we need to classify each data point into either group 1 or group 2. We do this by comparing their distances to either centers. If a point is closer to center 1, then it is in group 1. Otherwise, it is in group 2. Recall the distance measure for two points (x<sub>1</sub>,y<sub>1</sub>) and (x<sub>2</sub>,y<sub>2</sub>).</p>
+        <img src = "/img/eq_distance1.png" class="rounded mx-auto d-block" width = "225px">
+        <div style = "height:25px">&nbsp;</div>
+        <p>We will use the same formula for this algorithm. If c<sub>1</sub> = (m<sub>x</sub>,m<sub>y</sub>) is the center for group 1, and c<sub>2</sub> =(n<sub>x</sub>,n<sub>y</sub>) is the center for group 2, then for each data point (x,y) their distances to group 1 and group 2 will be</p>
+        <img src = "/img/eq_distance2.png" class="rounded mx-auto d-block" width = "450px">
+        <div style = "height:25px">&nbsp;</div>
+        <p>A point belongs to group 1 if d<sub>1</sub> > d<sub>2</sub>. Likewise, a point belongs to group 2 if d<sub>2</sub> > d<sub>1</sub>. Below, we are using purple for group 1, and blue for group 2. Notice how, when changing the location of the centers, the data points change colors to depict changing group assignments based on the distance formula we gave above.</p>
+        <img src = "/img/plot_groupassign.png" class="rounded mx-auto d-block" width = "65%">
+        <div style = "height:25px">&nbsp;</div>
+        <p>Now we have our group assignments. But, these group assignments are based on centers that we randomly placed on the plot. We want to actually find the correct centers, in order to come up with the best group assignments. This is now the focus of the next step, which will update our initial, random guess, into a better value. </p>
+        
+        <div style = "height:50px">&nbsp;</div>
+        <h5>2.2 Step Two: Updating the Centers</h5>
+        <p>We have formed an initial group assignment based on the distance formula. Now we want to update our groupings by getting a better value of the centers. We do this by updating the x and y coordinates of the centers. To update the center of group 1, (m<sub>x</sub>,m<sub>y</sub>), we get the <mark>updated</mark> coordinates by averaging all the x and y coordinates of the points that are part of group 1.</p>
+        <img src = "/img/eq_center1.png" class="rounded mx-auto d-block" width = "225px">
+        <div style = "height:25px">&nbsp;</div>
+        <p>The above formula simply means that the x coordinate of the new center for group 1 is the average of all x coordinates of the points included in group 1. Meanwhile, the y coordinate of the new center for group 1 is the average of all y coordinates of the points included in group 1.</p>
+        <p>How about for group 2? We do the same computation</p>
+        <img src = "/img/eq_center2.png" class="rounded mx-auto d-block" width = "225px">
+        <div style = "height:25px">&nbsp;</div>
+        <p>This time, the x coordinate of the new center for group 2 is the average of all x coordinates of the points included in group 2. Meanwhile, the y coordinate of the new center for group 2 is the average of all y coordinates of the points included in group 2.</p>
+        <p>We have now updated the centers of the groups. We then reassign the group again using the distance formula, based on which of the new centers they are closer to. Some points, originally in group 1, will transfer over to group 2, because they are now closer to the new center of group 2. Likewise, some points that were originally in group 2, will transfer over to group 1, because they are now closer to the center of group 1.</p>
+        <p>This use of averages for finding the center is the reason why we call the algorithm the K Means algorithm. Because the centers are simply the arithmetic means of the points, and K is the number of centers or means that are used to find the clusters. In our case, K=2.</p>
+        <img src = "/img/plot_updating.png" class="rounded mx-auto d-block" width = "85%">
+        <div style = "height:25px">&nbsp;</div>
+        <p>Notice in the plot above how we begin from the initialization (Iteration 0) and update the centers repetitively until they are able to find their way to the correct groupings in the data. Here we were able to arrive at the correct groupings after only two steps - though in more complicated cases, that may require more iterations.</p>
+        <p>That is because this update step actually happens multiple times. Now that we have updated the memberships of the points, we again find a new center by using the averages. And then we reassign the memberships again, and so on… The number of steps required for the K-Means algorithm to complete is theoretically infinite, but of course there’s a point where letting it continue makes no sense, and the algorithm is said to stop, or <mark>converge</mark>.</p>
+
+        <div style = "height:50px">&nbsp;</div>
+        <h5>2.3 Step Three: Convergence</h5>
+        <p>Eventually, once we do the update step enough number of times, we will reach what’s called convergence. This is when the groupings are no longer changing to the point that the centers remain at a fixed point, and the points no longer change groups. This is the end of Lloyd’s Algorithm. We now have identified two groups in the data based on where they cluster. And this is based on K=2 means.</p>
+        <p>We have so far explored Lloyd’s Algorithm. We tried a simple example where we are only considering two groups, or K=2. In the next lesson, we’ll look at an example using real data, and see how we might be able to use Lloyd’s Algorithm to split the data into more groups.</p>
+
+        <div style = "height:50px">&nbsp;</div>
+
+        <form>
+            <button type="submit" class="btn btn-primary">Mark As Completed</button>
+        </form>
+    
+    </div>
+
+    
+
+    <div style = "height:50px">&nbsp;</div>
+
+    <div class="container">
+        <footer class="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top">
+          <p class="col-md-4 mb-0 text-muted">&copy; 2021 Dominic Dayta, All Rights Reserved</p>
+      
+          <a href="/" class="col-md-4 d-flex align-items-center justify-content-center mb-3 mb-md-0 me-md-auto link-dark text-decoration-none">
+            <svg class="bi me-2" width="40" height="32"><use xlink:href="#bootstrap"/></svg>
+          </a>
+      
+          <ul class="nav col-md-4 justify-content-end">
+            <li class="nav-item"><a href="/" class="nav-link px-2 text-muted">Home</a></li>
+            <li class="nav-item"><a href="/lessons" class="nav-link px-2 text-muted">Lessons</a></li>
+            <li class="nav-item"><a href="/logout" class="nav-link px-2 text-muted">Logout</a></li>
+          </ul>
+        </footer>
+    </div>
+
+</body>
+</html>

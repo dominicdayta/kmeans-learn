@@ -18,11 +18,11 @@ router.get('/kmeans/introduction', (req,res) => {
 })
 
 router.get('/kmeans/algorithm', (req,res) => {
-    res.render('kmeans1/algorithm.ejs');
+    res.render('kmeans2/algorithm.ejs');
 })
 
 router.get('/kmeans/example', (req,res) => {
-    res.render('kmeans1/example.ejs');
+    res.render('kmeans2/example.ejs');
 })
 
 router.get('/kmeans/posttest', (req,res) => {
