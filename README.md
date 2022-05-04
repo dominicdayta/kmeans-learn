@@ -14,6 +14,12 @@ Initilize the server using nodemon:
 npm run devStart
 ```
 
+Make sure to run mongodb (I'm assuming the system is Mac OS, Catalina onwards).
+
+```bash
+brew services run mongodb-community
+```
+
 The server is set to listen to port 4000.
 
 ## Preview
