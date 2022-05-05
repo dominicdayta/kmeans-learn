@@ -45,7 +45,6 @@
 
         <h1>K-Means Clustering</h1>
         <p><mark>Learn Data Science</mark> is a learning tool created for teaching advanced concepts in Statistics and Data Analysis through an online, module-based set up.</p>
-        <p>Status: <mark>Pending Completion</mark></p>
     </div>
 
     <div class="container">
@@ -65,9 +64,15 @@
                 Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
                 <br/>
                 <hr/>
-                <a href="/lessons/kmeans/pretest" class="btn btn-primary">Accomplish</a>
-                &nbsp; &nbsp;
-                Status: not yet completed
+                <% if(progress[0]){ %>
+                  <a href="#" class="btn btn-primary disabled">Accomplish</a>
+                  &nbsp; &nbsp;
+                  <%= 'Status: completed '.concat(progress[0]) %>
+                <% } else { %>
+                  <a href="/lessons/kmeans/pretest" class="btn btn-primary">Accomplish</a>
+                  &nbsp; &nbsp;
+                  <%= 'Status: not yet completed' %>
+                <% } %>
             </div>
             </div>
         </div>
@@ -88,9 +93,19 @@
                 Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
                 <br/>
                 <hr/>
-                <button class="btn btn-primary" disabled>Accomplish</button>
-                &nbsp; &nbsp;
-                Status: not yet completed
+                <% if(! progress[0]){ %>
+                  <a href="#" class="btn btn-primary disabled">Accomplish</a>
+                  &nbsp; &nbsp;
+                  <%= 'Status: Please accomplish the Pre-Test first' %>
+                <% } else if(progress[1]) { %>
+                  <a href="#" class="btn btn-primary disabled">Accomplish</a>
+                  &nbsp; &nbsp;
+                  <%= 'Status: completed '.concat(progress[1]) %>
+                <% } else { %>
+                  <a href="/lessons/kmeans/introduction" class="btn btn-primary">Accomplish</a>
+                  &nbsp; &nbsp;
+                  <%= 'Status: not yet completed' %>
+                <% } %>
               </div>
             </div>
         </div>
@@ -111,9 +126,19 @@
                 Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
                 <br/>
                 <hr/>
-                <button class="btn btn-primary" disabled>Accomplish</button>
-                &nbsp; &nbsp;
-                Status: not yet completed
+                <% if(! progress[1]){ %>
+                  <a href="#" class="btn btn-primary disabled">Accomplish</a>
+                  &nbsp; &nbsp;
+                  <%= 'Status: Please accomplish Lesson 1 first' %>
+                <% } else if(progress[2]) { %>
+                  <a href="#" class="btn btn-primary disabled">Accomplish</a>
+                  &nbsp; &nbsp;
+                  <%= 'Status: completed '.concat(progress[2]) %>
+                <% } else { %>
+                  <a href="/lessons/kmeans/algorithm" class="btn btn-primary">Accomplish</a>
+                  &nbsp; &nbsp;
+                  <%= 'Status: not yet completed' %>
+                <% } %>
               </div>
             </div>
         </div>
@@ -134,9 +159,19 @@
               Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
               <br/>
               <hr/>
-              <button class="btn btn-primary" disabled>Accomplish</button>
-              &nbsp; &nbsp;
-              Status: not yet completed
+              <% if(! progress[2]){ %>
+                <a href="#" class="btn btn-primary disabled">Accomplish</a>
+                &nbsp; &nbsp;
+                <%= 'Status: Please accomplish Lesson 2 first' %>
+              <% } else if(progress[3]) { %>
+                <a href="#" class="btn btn-primary disabled">Accomplish</a>
+                &nbsp; &nbsp;
+                <%= 'Status: completed '.concat(progress[3]) %>
+              <% } else { %>
+                <a href="/lessons/kmeans/example" class="btn btn-primary">Accomplish</a>
+                &nbsp; &nbsp;
+                <%= 'Status: not yet completed' %>
+              <% } %>
             </div>
           </div>
       </div>
@@ -157,9 +192,19 @@
                 Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
                 <br/>
                 <hr/>
-                <button class="btn btn-primary" disabled>Accomplish</button>
-                &nbsp; &nbsp;
-                Status: not yet completed
+                <% if(! progress[3]){ %>
+                  <a href="#" class="btn btn-primary disabled">Accomplish</a>
+                  &nbsp; &nbsp;
+                  <%= 'Status: Please accomplish Lesson 3 first' %>
+                <% } else if(progress[4]) { %>
+                  <a href="#" class="btn btn-primary disabled">Accomplish</a>
+                  &nbsp; &nbsp;
+                  <%= 'Status: completed '.concat(progress[4]) %>
+                <% } else { %>
+                  <a href="/lessons/kmeans/posttest" class="btn btn-primary">Accomplish</a>
+                  &nbsp; &nbsp;
+                  <%= 'Status: not yet completed' %>
+                <% } %>
               </div>
             </div>
         </div>
@@ -180,9 +225,19 @@
                 Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
                 <br/>
                 <hr/>
-                <button class="btn btn-primary" disabled>Accomplish</button>
-                &nbsp; &nbsp;
-                Status: optional
+                <% if(! progress[4]){ %>
+                  <a href="#" class="btn btn-primary disabled">Accomplish</a>
+                  &nbsp; &nbsp;
+                  <%= 'Status: Please accomplish the Post-Test first' %>
+                <% } else if(progress[5]) { %>
+                  <a href="#" class="btn btn-primary disabled">Accomplish</a>
+                  &nbsp; &nbsp;
+                  <%= 'Status: completed '.concat(progress[5]) %>
+                <% } else { %>
+                  <a href="/lessons/kmeans/feedback" class="btn btn-primary">Accomplish</a>
+                  &nbsp; &nbsp;
+                  <%= 'Status: not yet completed' %>
+                <% } %>
               </div>
             </div>
         </div>
@@ -200,8 +255,7 @@
           </a>
       
           <ul class="nav col-md-4 justify-content-end">
-            <li class="nav-item"><a href="/" class="nav-link px-2 text-muted">Home</a></li>
-            <li class="nav-item"><a href="/lessons" class="nav-link px-2 text-muted">Lessons</a></li>
+            <li class="nav-item"><a href="/lessons" class="nav-link px-2 text-muted">Home</a></li>
             <li class="nav-item"><a href="/logout" class="nav-link px-2 text-muted">Logout</a></li>
           </ul>
         </footer>
