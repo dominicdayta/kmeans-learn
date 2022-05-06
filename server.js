@@ -6,6 +6,7 @@ const bcrypt = require('bcrypt');
 const passport = require('passport');
 const flash = require('express-flash');
 const session = require('express-session');
+const MongoStore = require('connect-mongo');
 const mongoose = require('mongoose');
 
 const Students = require('./models/students');
@@ -32,6 +33,7 @@ app.use(express.urlencoded({ extended:false }));
 app.use(flash());
 app.use(session({
     secret: process.env.SESSION_SECRET,
+    store: MongoStore.create({ mongoUrl: process.env['DATABASE_URL2'] }),
     resave: false,
     saveUninitialized: false
 }));
