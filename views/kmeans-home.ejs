@@ -44,14 +44,17 @@
         </center>
 
         <h1>K-Means Clustering</h1>
-        <p><mark>Learn Data Science</mark> is a learning tool created for teaching advanced concepts in Statistics and Data Analysis through an online, module-based set up.</p>
+        <p><mark>Cluster Analysis</mark> is sometimes also called data segmentation, because it has the overall goal of dividing a set of data into an arbitrary number of clusters or segments, with each segment ideally representing some form of commonality amongst its members. In these lessons, we learn about the <mark>K-Means Clustering</mark> algorithm, which is one of the most popular and widely-used application of Cluster Analysis.</p>
         <div style = "height:25px">&nbsp;</div>
         
         <h4>My Progress:</h4>
         <div class="progress">
-          <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" style="width: 75%"></div>
+          <% let pct_progress = Math.round(100 * progress.filter(x => x !== false).length / 6) %>
+          <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="<%= pct_progress %>" aria-valuemin="0" aria-valuemax="100" style="width: <%= pct_progress %>%"></div>
         </div>
     </div>
+
+    
 
     <div class="container">
         <div style = "height:25px">&nbsp;</div>

@@ -11,7 +11,7 @@ const mongoose = require('mongoose');
 
 const Students = require('./models/students');
 
-mongoose.connect(process.env['DATABASE_URL2'], { useNewUrlParser: true });
+mongoose.connect(process.env['DATABASE_URL'], { useNewUrlParser: true });
 const db = mongoose.connection;
 db.on('error', (error) => console.error(error));
 db.once('open', () => console.log('Connected to Database'));
@@ -33,7 +33,7 @@ app.use(express.urlencoded({ extended:false }));
 app.use(flash());
 app.use(session({
     secret: process.env.SESSION_SECRET,
-    store: MongoStore.create({ mongoUrl: process.env['DATABASE_URL2'] }),
+    store: MongoStore.create({ mongoUrl: process.env['DATABASE_URL'] }),
     resave: false,
     saveUninitialized: false
 }));

@@ -24,4 +24,4 @@ The server is set to listen to port 4000.
 
 ## Preview
 
-As of current writing, the application is not yet live. But it will be!
+The application is now live at https://kmeanslearn.herokuapp.com/ but is currently in members-only mode.
