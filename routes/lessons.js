@@ -33,15 +33,33 @@ router.get('/kmeans', async (req,res) => {
     res.render('kmeans-home', { user: req.user, progress: checkProgress(progress) });
 })
 
-router.get('/kmeans/pretest', (req,res) => {
+router.get('/kmeans/pretest', async (req,res) => {
+    const progress = await Progress.find({'id': req.user.id}, (err,docs)=>{return(docs)}).clone();
+
+    if(progress[0]){
+        return res.redirect('/lessons/kmeans');
+    }
+
     res.render('kmeans1/preassessment.ejs');
 })
 
-router.get('/kmeans/introduction', (req,res) => {
+router.get('/kmeans/introduction', async (req,res) => {
+    const progress = await Progress.find({'id': req.user.id}, (err,docs)=>{return(docs)}).clone();
+    
+    if(! progress[0] || progress[1]){
+        return res.redirect('/lessons/kmeans');
+    }
+    
     res.render('kmeans1/introduction.ejs');
 })
 
-router.get('/kmeans/algorithm', (req,res) => {
+router.get('/kmeans/algorithm', async (req,res) => {
+    const progress = await Progress.find({'id': req.user.id}, (err,docs)=>{return(docs)}).clone();
+
+    if(! progress[1] || progress[2]){
+        return res.redirect('/lessons/kmeans');
+    }
+
     if(req.user.treatment){
         res.render('kmeans2/algorithm.ejs');
     }else{
@@ -49,7 +67,13 @@ router.get('/kmeans/algorithm', (req,res) => {
     }
 })
 
-router.get('/kmeans/example', (req,res) => {
+router.get('/kmeans/example', async (req,res) => {
+    const progress = await Progress.find({'id': req.user.id}, (err,docs)=>{return(docs)}).clone();
+
+    if(! progress[2] || progress[3]){
+        return res.redirect('/lessons/kmeans');
+    }
+
     if(req.user.treatment){
         res.render('kmeans2/example.ejs');
     }else{
@@ -57,11 +81,23 @@ router.get('/kmeans/example', (req,res) => {
     }
 })
 
-router.get('/kmeans/posttest', (req,res) => {
+router.get('/kmeans/posttest', async (req,res) => {
+    const progress = await Progress.find({'id': req.user.id}, (err,docs)=>{return(docs)}).clone();
+
+    if(! progress[3] || progress[4]){
+        return res.redirect('/lessons/kmeans');
+    }
+
     res.render('kmeans1/postassessment.ejs');
 })
 
-router.get('/kmeans/feedback', (req,res) => {
+router.get('/kmeans/feedback', async (req,res) => {
+    const progress = await Progress.find({'id': req.user.id}, (err,docs)=>{return(docs)}).clone();
+
+    if(! progress[4] || progress[5]){
+        return res.redirect('/lessons/kmeans');
+    }
+
     res.render('kmeans1/feedback.ejs');
 })
 
